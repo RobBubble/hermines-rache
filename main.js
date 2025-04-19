@@ -45,7 +45,9 @@ function create() {
   platforms.add(testPlatform);
 
   // Spieler sichtbar platzieren
-  player = this.physics.add.sprite(200, 300, 'hermine', 1); // Frame 1 als Standard
+  player = this.add.rectangle(200, 300, 32, 32, 0x00ff00);
+this.physics.add.existing(player);
+player.body.setCollideWorldBounds(true);
   player.setCollideWorldBounds(true);
   player.setBounce(0.1);
   this.physics.add.collider(player, platforms);
