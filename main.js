@@ -37,7 +37,10 @@ function preload() {
 
 function create() {
   const platforms = this.physics.add.staticGroup();
-  platforms.create(300, 300, 'tileset').setScale(2).refreshBody();
+  const testPlatform = this.add.rectangle(300, 300, 200, 32, 0xff00ff);
+this.physics.add.existing(testPlatform, true);
+platforms.add(testPlatform);
+
 
   player = this.physics.add.sprite(200, 200, 'hermine');
   player.setCollideWorldBounds(true);
@@ -91,7 +94,8 @@ function update() {
     player.flipX = false;
   } else {
     player.setVelocityX(0);
-    player.setFrame(0);
+    player.anims.play('run');
+
   }
 
   if (jump && player.body.touching.down) {
