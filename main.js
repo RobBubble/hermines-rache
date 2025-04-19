@@ -61,10 +61,12 @@ function create() {
 
   this.cameras.main.startFollow(player);
 
-  // UI nur einmal erzeugen
-  for (let i = 0; i < lives; i++) {
-    const icon = this.add.image(30 + i * 34, 30, 'ui').setScrollFactor(0).setScale(0.2);
-    uiIcons.push(icon);
+  // Sicherstellen, dass UI nicht doppelt erstellt wird
+  if (uiIcons.length === 0) {
+    for (let i = 0; i < lives; i++) {
+      const icon = this.add.image(30 + i * 34, 30, 'ui').setScrollFactor(0).setScale(0.2);
+      uiIcons.push(icon);
+    }
   }
 
   // Punkteanzeige
