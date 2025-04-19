@@ -23,7 +23,7 @@ const game = new Phaser.Game(config);
 
 function preload() {
   this.load.image('tileset', 'tileset.png');
-  this.load.image('background', 'background.png');
+  this.load.image('background', 'tileset.png'); // Temporärer Hintergrund aus dem Tileset
   this.load.spritesheet('hermine', 'hermine-sprite.png', {
     frameWidth: 32,
     frameHeight: 32
@@ -34,9 +34,9 @@ function create() {
   this.add.image(480, 270, 'background').setScrollFactor(0.5);
 
   const platforms = this.physics.add.staticGroup();
-  platforms.create(400, 500, 'tileset');
+  platforms.create(400, 450, 'tileset').setScale(2).refreshBody();
 
-  player = this.physics.add.sprite(100, 400, 'hermine');
+  player = this.physics.add.sprite(100, 350, 'hermine');
   player.setCollideWorldBounds(true);
   player.setBounce(0.1);
 
@@ -68,6 +68,6 @@ function update() {
   }
 
   if (cursors.up.isDown && player.body.touching.down) {
-    player.setVelocityY(-400);
+    player.setVelocityY(-450);
   }
 }
