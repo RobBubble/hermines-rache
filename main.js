@@ -22,6 +22,7 @@ let wasd;
 let score = 0;
 let lives = 7;
 let uiIcons = [];
+let scoreText;
 
 const game = new Phaser.Game(config);
 
@@ -35,9 +36,6 @@ function preload() {
 }
 
 function create() {
-  // Optionaler Hintergrund (vorerst deaktiviert, um Layer-Probleme zu vermeiden)
-  // this.add.image(480, 270, 'background').setScrollFactor(0.5);
-
   const platforms = this.physics.add.staticGroup();
   platforms.create(300, 300, 'tileset').setScale(2).refreshBody();
 
@@ -63,14 +61,14 @@ function create() {
 
   this.cameras.main.startFollow(player);
 
-  // UI: Leben als Pfoten
+  // UI nur einmal erzeugen
   for (let i = 0; i < lives; i++) {
     const icon = this.add.image(30 + i * 34, 30, 'ui').setScrollFactor(0).setScale(0.2);
     uiIcons.push(icon);
   }
 
   // Punkteanzeige
-  this.scoreText = this.add.text(780, 25, 'PUNKTE: 0', {
+  scoreText = this.add.text(780, 25, 'PUNKTE: 0', {
     fontSize: '20px',
     fill: '#fff'
   }).setScrollFactor(0);
