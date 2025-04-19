@@ -21,7 +21,6 @@ let cursors;
 let wasd;
 let score = 0;
 let lives = 7;
-let uiIcons = [];
 let scoreText;
 let platforms;
 
@@ -32,15 +31,14 @@ function preload() {
 }
 
 function create() {
-  // Plattform-Gruppe vorbereiten
   platforms = this.physics.add.staticGroup();
 
-  // Sichtbare Plattform mit Farbe zum Testen
+  // Sichtbare Plattform
   const testPlatform = this.add.rectangle(300, 400, 300, 40, 0xff99ff);
   this.physics.add.existing(testPlatform, true);
   platforms.add(testPlatform);
 
-  // SPIELER ALS SICHTBARES RECHTECK
+  // Spieler: grünes Rechteck
   player = this.add.rectangle(200, 300, 32, 32, 0x00ff00);
   this.physics.add.existing(player);
   player.body.setCollideWorldBounds(true);
@@ -58,14 +56,13 @@ function create() {
 
   this.cameras.main.startFollow(player);
 
-  // UI: Nur erzeugen, wenn leer
+  // UI: Icons nur einmal anzeigen durch Flag
   if (!this.uiDrawn) {
-  for (let i = 0; i < lives; i++) {
-    this.add.image(30 + i * 34, 30, 'ui').setScrollFactor(0).setScale(0.2);
+    for (let i = 0; i < lives; i++) {
+      this.add.image(30 + i * 34, 30, 'ui').setScrollFactor(0).setScale(0.2);
+    }
+    this.uiDrawn = true;
   }
-  this.uiDrawn = true; // Flag setzen: UI wurde bereits gezeichnet
-}
-
 
   scoreText = this.add.text(780, 25, 'PUNKTE: 0', {
     fontSize: '20px',
