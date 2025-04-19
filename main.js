@@ -59,12 +59,13 @@ function create() {
   this.cameras.main.startFollow(player);
 
   // UI: Nur erzeugen, wenn leer
-  if (uiIcons.length === 0) {
-    for (let i = 0; i < lives; i++) {
-      const icon = this.add.image(30 + i * 34, 30, 'ui').setScrollFactor(0).setScale(0.2);
-      uiIcons.push(icon);
-    }
+  if (!this.uiDrawn) {
+  for (let i = 0; i < lives; i++) {
+    this.add.image(30 + i * 34, 30, 'ui').setScrollFactor(0).setScale(0.2);
   }
+  this.uiDrawn = true; // Flag setzen: UI wurde bereits gezeichnet
+}
+
 
   scoreText = this.add.text(780, 25, 'PUNKTE: 0', {
     fontSize: '20px',
