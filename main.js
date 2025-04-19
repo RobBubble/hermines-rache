@@ -29,10 +29,6 @@ const game = new Phaser.Game(config);
 
 function preload() {
   this.load.image('ui', 'ui-icons.png');
-  this.load.spritesheet('hermine', 'hermine-sprite.png', {
-    frameWidth: 32,
-    frameHeight: 32
-  });
 }
 
 function create() {
@@ -44,21 +40,13 @@ function create() {
   this.physics.add.existing(testPlatform, true);
   platforms.add(testPlatform);
 
-  // Spieler sichtbar platzieren
+  // SPIELER ALS SICHTBARES RECHTECK
   player = this.add.rectangle(200, 300, 32, 32, 0x00ff00);
-this.physics.add.existing(player);
-player.body.setCollideWorldBounds(true);
-  player.setCollideWorldBounds(true);
-  player.setBounce(0.1);
-  this.physics.add.collider(player, platforms);
+  this.physics.add.existing(player);
+  player.body.setCollideWorldBounds(true);
+  player.body.setBounce(0.1);
 
-  // Animationen
-  this.anims.create({
-    key: 'run',
-    frames: this.anims.generateFrameNumbers('hermine', { start: 1, end: 3 }),
-    frameRate: 10,
-    repeat: -1
-  });
+  this.physics.add.collider(player, platforms);
 
   // Steuerung
   cursors = this.input.keyboard.createCursorKeys();
@@ -90,19 +78,14 @@ function update() {
   const jump = cursors.up.isDown || wasd.up.isDown;
 
   if (moveLeft) {
-    player.setVelocityX(-160);
-    player.anims.play('run', true);
-    player.flipX = true;
+    player.body.setVelocityX(-160);
   } else if (moveRight) {
-    player.setVelocityX(160);
-    player.anims.play('run', true);
-    player.flipX = false;
+    player.body.setVelocityX(160);
   } else {
-    player.setVelocityX(0);
-    player.setFrame(1); // Zeige klaren Standframe
+    player.body.setVelocityX(0);
   }
 
   if (jump && player.body.touching.down) {
-    player.setVelocityY(-450);
+    player.body.setVelocityY(-450);
   }
 }
