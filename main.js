@@ -18,12 +18,16 @@ const config = {
 
 let player;
 let cursors;
+let wasd;
+let score = 0;
+let lives = 7;
+let uiIcons = [];
 
 const game = new Phaser.Game(config);
 
 function preload() {
   this.load.image('tileset', 'tileset.png');
-  this.load.image('background', 'tileset.png'); // Temporärer Hintergrund aus dem Tileset
+  this.load.image('ui', 'ui-icons.png');
   this.load.spritesheet('hermine', 'hermine-sprite.png', {
     frameWidth: 32,
     frameHeight: 32
@@ -31,8 +35,6 @@ function preload() {
 }
 
 function create() {
-  this.add.image(480, 270, 'background').setScrollFactor(0.5);
-
   const platforms = this.physics.add.staticGroup();
   platforms.create(400, 450, 'tileset').setScale(2).refreshBody();
 
@@ -50,15 +52,37 @@ function create() {
   });
 
   cursors = this.input.keyboard.createCursorKeys();
+  wasd = this.input.keyboard.addKeys({
+    up: Phaser.Input.Keyboard.KeyCodes.W,
+    left: Phaser.Input.Keyboard.KeyCodes.A,
+    right: Phaser.Input.Keyboard.KeyCodes.D
+  });
+
   this.cameras.main.startFollow(player);
+
+  // UI: Leben als Pfoten
+  for (let i = 0; i < lives; i++) {
+    const icon = this.add.image(30 + i * 34, 30, 'ui').setScrollFactor(0).setScale(0.2);
+    uiIcons.push(icon);
+  }
+
+  // Punkteanzeige
+  this.scoreText = this.add.text(780, 25, 'PUNKTE: 0', {
+    fontSize: '20px',
+    fill: '#fff'
+  }).setScrollFactor(0);
 }
 
 function update() {
-  if (cursors.left.isDown) {
+  const moveLeft = cursors.left.isDown || wasd.left.isDown;
+  const moveRight = cursors.right.isDown || wasd.right.isDown;
+  const jump = cursors.up.isDown || wasd.up.isDown;
+
+  if (moveLeft) {
     player.setVelocityX(-160);
     player.anims.play('run', true);
     player.flipX = true;
-  } else if (cursors.right.isDown) {
+  } else if (moveRight) {
     player.setVelocityX(160);
     player.anims.play('run', true);
     player.flipX = false;
@@ -67,7 +91,7 @@ function update() {
     player.setFrame(0);
   }
 
-  if (cursors.up.isDown && player.body.touching.down) {
+  if (jump && player.body.touching.down) {
     player.setVelocityY(-450);
   }
 }
