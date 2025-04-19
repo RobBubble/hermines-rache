@@ -35,10 +35,13 @@ function preload() {
 }
 
 function create() {
-  const platforms = this.physics.add.staticGroup();
-  platforms.create(400, 450, 'tileset').setScale(2).refreshBody();
+  // Optionaler Hintergrund (vorerst deaktiviert, um Layer-Probleme zu vermeiden)
+  // this.add.image(480, 270, 'background').setScrollFactor(0.5);
 
-  player = this.physics.add.sprite(100, 350, 'hermine');
+  const platforms = this.physics.add.staticGroup();
+  platforms.create(300, 300, 'tileset').setScale(2).refreshBody();
+
+  player = this.physics.add.sprite(200, 200, 'hermine');
   player.setCollideWorldBounds(true);
   player.setBounce(0.1);
 
